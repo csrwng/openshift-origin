@@ -1310,7 +1310,7 @@
 						"value": "[parameters('aadClientSecret')]"
 					},
 					"xipioDomain": {
-						"value": "[concat(reference(parameters('infraLbPublicIpDnsLabel')).ipAddress, '.xip.io')]"
+						"value": "[concat(reference(parameters('infraLbPublicIpDnsLabel')).ipAddress, '.nip.io')]"
 					},
 					"customDomain": {
 						"value": "[parameters('defaultSubDomain')]"
