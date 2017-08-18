@@ -26,6 +26,8 @@ RESOURCEGROUP=${19}
 LOCATION=${20}
 STORAGEACCOUNT1=${21}
 SAKEY1=${22}
+OANSIBLEURL="${23}"
+OANSIBLEBRANCH="${24}"
 
 MASTERLOOP=$((MASTERCOUNT - 1))
 INFRALOOP=$((INFRACOUNT - 1))
@@ -606,7 +608,7 @@ fi
 # Initiating installation of OpenShift Container Platform using Ansible Playbook
 echo $(date) " - Installing OpenShift Container Platform via Ansible Playbook"
 
-runuser -l $SUDOUSER -c "git clone https://github.com/openshift/openshift-ansible /home/$SUDOUSER/openshift-ansible && cd /home/$SUDOUSER/openshift-ansible && git checkout release-3.6"
+runuser -l $SUDOUSER -c "git clone ${OANSIBLEURL} /home/$SUDOUSER/openshift-ansible && cd /home/$SUDOUSER/openshift-ansible && git checkout ${OANSIBLEBRANCH}"
 
 runuser -l $SUDOUSER -c "ansible-playbook openshift-ansible/playbooks/byo/config.yml"
 
