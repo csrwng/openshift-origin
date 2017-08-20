@@ -68,8 +68,20 @@ NODELOOP="${NODELOOP}"
 EOF
 fi
 
-while [[ ! -f /tmp/continue ]]; do
-	sleep 60
+for (( c=0; c<$INFRACOUNT; c++ ))
+do
+  host="$INFRA-$c"
+  ipaddr="$(getent hosts ${host} | awk '{ print $1 }')"
+  echo "${ipaddr} ${host}" >> /etc/hosts
+done
+
+# Loop to add Nodes
+
+for (( c=0; c<$NODECOUNT; c++ ))
+do
+  host="$NODE-$c"
+  ipaddr="$(getent hosts ${host} | awk '{ print $1 }')"
+  echo "${ipaddr} ${host}" >> /etc/hosts
 done
 
 # Create vhds Container in PV Storage Account
@@ -495,7 +507,7 @@ new_nodes
 ansible_ssh_user=$SUDOUSER
 ansible_become=yes
 openshift_install_examples=true
-deployment_type=origin
+openshift_deployment_type=origin
 openshift_release=v3.6.0
 #openshift_image_tag=v1.5.0
 docker_udev_workaround=True
