@@ -84,6 +84,12 @@ do
   echo "${ipaddr} ${host}" >> /etc/hosts
 done
 
+echo "Pausing"
+while [[ ! -f /tmp/continue ]]; do
+	sleep 60
+	echo "Sleeping"
+done
+
 # Create vhds Container in PV Storage Account
 echo $(date) " - Creating vhds container in PV Storage Account"
 
