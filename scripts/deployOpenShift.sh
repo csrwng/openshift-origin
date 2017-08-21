@@ -225,10 +225,15 @@ cat > /home/${SUDOUSER}/setup-azure-master.yml <<EOF
     azure_conf: "{{ azure_conf_dir }}/azure.conf"
     master_conf: /etc/origin/master/master-config.yaml
   handlers:
-  - name: restart origin-master
+  - name: restart origin-master-api
     systemd:
       state: restarted
-      name: origin-master
+      name: origin-master-api
+
+  - name: restart origin-master-controllers
+    systemd:
+      state: restarted
+      name: origin-master-controllers
 
   post_tasks:
   - name: make sure /etc/azure exists
@@ -248,7 +253,8 @@ cat > /home/${SUDOUSER}/setup-azure-master.yml <<EOF
           "resourceGroup": "{{ g_resourceGroup }}",
         } 
     notify:
-    - restart origin-master
+    - restart origin-master-api
+    - restart origin-master-controllers
 
   - name: insert the azure disk config into the master
     modify_yaml:
@@ -272,7 +278,8 @@ cat > /home/${SUDOUSER}/setup-azure-master.yml <<EOF
       value:
       - azure
     notify:
-    - restart origin-master
+    - restart origin-master-api
+    - restart origin-master-controllers
 EOF
 
 else
