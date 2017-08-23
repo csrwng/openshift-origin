@@ -68,6 +68,20 @@ NODELOOP="${NODELOOP}"
 EOF
 fi
 
+for (( c=0; c<$INFRACOUNT; c++ ))
+do
+  host="$INFRA-$c"
+  ipaddr="$(getent hosts ${host} | awk '{ print $1 }')"
+  echo "${ipaddr} ${host}" >> /etc/hosts
+done
+
+for (( c=0; c<$NODECOUNT; c++ ))
+do
+  host="$NODE-$c"
+  ipaddr="$(getent hosts ${host} | awk '{ print $1 }')"
+  echo "${ipaddr} ${host}" >> /etc/hosts
+done
+
 # Create vhds Container in PV Storage Account
 echo $(date) " - Creating vhds container in PV Storage Account"
 
