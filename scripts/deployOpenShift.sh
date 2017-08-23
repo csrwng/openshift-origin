@@ -68,28 +68,6 @@ NODELOOP="${NODELOOP}"
 EOF
 fi
 
-for (( c=0; c<$INFRACOUNT; c++ ))
-do
-  host="$INFRA-$c"
-  ipaddr="$(getent hosts ${host} | awk '{ print $1 }')"
-  echo "${ipaddr} ${host}" >> /etc/hosts
-done
-
-# Loop to add Nodes
-
-for (( c=0; c<$NODECOUNT; c++ ))
-do
-  host="$NODE-$c"
-  ipaddr="$(getent hosts ${host} | awk '{ print $1 }')"
-  echo "${ipaddr} ${host}" >> /etc/hosts
-done
-
-echo "Pausing"
-while [[ ! -f /tmp/continue ]]; do
-	sleep 60
-	echo "Sleeping"
-done
-
 # Create vhds Container in PV Storage Account
 echo $(date) " - Creating vhds container in PV Storage Account"
 
@@ -544,6 +522,9 @@ openshift_master_cluster_public_vip=$MASTERPUBLICIPADDRESS
 
 # Enable HTPasswdPasswordIdentityProvider for username / password authentication for OpenShift Cluster
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+
+# Use CRI-O
+openshift_docker_use_crio=True
 
 # host group for masters
 [masters]
