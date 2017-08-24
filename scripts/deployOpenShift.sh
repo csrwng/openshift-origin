@@ -98,6 +98,12 @@ runuser -l $SUDOUSER -c "chmod 600 ~/.ssh/id_rsa*"
 
 echo $(date) "- Configuring SSH ControlPath to use shorter path name"
 
+while [[ ! -f /tmp/continue ]]; do
+	echo $(date) " - waiting for /tmp/continue"
+	sleep 90
+done
+echo "continuing installation"
+
 sed -i -e "s/^# control_path = %(directory)s\/%%h-%%r/control_path = %(directory)s\/%%h-%%r/" /etc/ansible/ansible.cfg
 sed -i -e "s/^#host_key_checking = False/host_key_checking = False/" /etc/ansible/ansible.cfg
 sed -i -e "s/^#pty=False/pty=False/" /etc/ansible/ansible.cfg
