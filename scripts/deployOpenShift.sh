@@ -545,7 +545,7 @@ openshift_master_cluster_public_vip=$MASTERPUBLICIPADDRESS
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
 
 # Use CRI-O
-openshift_use_crio=True
+# openshift_use_crio=True
 
 # host group for masters
 [masters]
